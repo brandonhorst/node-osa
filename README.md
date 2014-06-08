@@ -12,7 +12,7 @@ OSA allows for advanced interaction between applications on OSX. In the past, it
 ##Installation
 
 ```
-npm install node-osa
+npm install osa
 ```
 
 ##Use
