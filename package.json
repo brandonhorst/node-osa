@@ -1,8 +1,8 @@
 {
-  "name": "node-osa",
+  "name": "osa",
   "version": "0.0.1",
   "description": "node.js module for interfacing with OSX 10.10 Javascript OSA Scripting",
-  "main": "osa.coffee",
+  "main": "src/osa.coffee",
   "scripts": {
     "test": "coffee test/test.coffee"
   },
