@@ -1,7 +1,6 @@
 #node-osa
 
 exec = require('child_process').exec
-_ = require 'lodash'
 util = require 'util'
 
 utilities = require './utilities'

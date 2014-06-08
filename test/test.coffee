@@ -1,4 +1,4 @@
-osa = require '../osa'
+osa = require '../src/osa'
 
 
 promptForHandle = (service, defaultHandle, done) ->

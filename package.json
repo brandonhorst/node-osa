@@ -26,7 +26,6 @@
   },
   "homepage": "https://github.com/brandonhorst/node-osa",
   "dependencies": {
-    "lodash": "^2.4.1",
     "coffee-script": "^1.7.1"
   }
 }
