@@ -1,10 +1,10 @@
 {
   "name": "osa",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "node.js module for interfacing with OSX 10.10 Javascript OSA Scripting",
   "main": "src/osa.coffee",
   "scripts": {
-    "test": "coffee test/test.coffee"
+    "test": "node test/test.js"
   },
   "repository": {
     "type": "git",
@@ -24,8 +24,5 @@
   "bugs": {
     "url": "https://github.com/brandonhorst/node-osa/issues"
   },
-  "homepage": "https://github.com/brandonhorst/node-osa",
-  "dependencies": {
-    "coffee-script": "^1.7.1"
-  }
+  "homepage": "https://github.com/brandonhorst/node-osa"
 }
