@@ -1,31 +1,47 @@
+var expect = require('chai').expect;
 var osa = require('../lib/osa');
 
+describe('osa', function () {
+  
+  it('runs a function and returns its result', function (done) {
+    function callback(err, result) {
+      expect(err).to.not.exist;
+      expect(result).to.equal(2);
+      done();
+    }
+    osa(function (x) {return x + 1}, 1, callback);
+  });
 
-var promptForHandle = function (service, defaultHandle, done) {
-	var app = Application.currentApplication();
-	var prompt = 'What is your ' + service + ' handle?';
-	var promptArguments = {
-		withTitle: 'Hello, world!',
-		defaultAnswer: defaultHandle
-	};
-	var result;
+  it('returns an error if one is thrown', function (done) {
+    function callback(err, result) {
+      expect(err).to.exist;
+      // expect(err.message).to.contain('myError');
+      done();
+    }
+    osa(function () {throw new Error('myError')}, callback);
+  });
 
-	app.includeStandardAdditions = true;
+  it('interacts with the osa globals', function (done) {
+    function callback(err, result) {
+      expect(err).to.not.exist;
+      expect(result).to.equal('/tmp/not/a/real/file.txt');
+      done();
+    }
 
-	result = app.displayDialog(prompt, promptArguments);
+    function osaFunction() {
+      return Path('/tmp/not/a/real/file.txt').toString();
+    }
 
-	done(null, service, result.textReturned);
-};
+    osa(osaFunction, callback);
+  });
 
-responseHandler = function (err, service, result) {
-	var stringToPrint;
-	
-	if (err) {
-		console.error(err)
-	} else {
-		stringToPrint = 'Your ' + service + ' handle is ' + result;
-		console.log(stringToPrint);
-	}
-};
+  it('throws without a return', function (done) {
+    function callback(err, result) {
+      expect(err).to.exist;
+      done();
+    }
 
-osa(promptForHandle, 'twitter', '@brandonhorst', responseHandler);
+    osa(function () {}, callback);
+  });
+
+});

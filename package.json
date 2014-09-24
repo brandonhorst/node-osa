@@ -1,10 +1,14 @@
 {
   "name": "osa",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "node.js module for interfacing with OSX 10.10 Javascript OSA Scripting",
   "main": "src/osa.coffee",
   "scripts": {
-    "test": "node test/test.js"
+    "test": "mocha test",
+    "demo": "node demo/demo.js",
+    "lint": "jshint lib",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- -u exports -R spec",
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveral"
   },
   "repository": {
     "type": "git",
@@ -24,5 +28,12 @@
   "bugs": {
     "url": "https://github.com/brandonhorst/node-osa/issues"
   },
-  "homepage": "https://github.com/brandonhorst/node-osa"
+  "homepage": "https://github.com/brandonhorst/node-osa",
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "coveralls": "^2.11.2",
+    "istanbul": "^0.3.2",
+    "jshint": "^2.5.6",
+    "mocha": "^1.21.4"
+  }
 }
