@@ -86,7 +86,7 @@ responseHandler = function (err, service, result) {
 };
 ```
 
-Then, we will actually make the `osa` call. This will call promptForHandle, with 3 arguments, `'twitter'`, `'@brandonhorst'`. Whatever it returns will be passed to `responseHandler`.
+Then, we will actually make the `osa` call. This will call promptForHandle, with 2 arguments, `'twitter'` and `'@brandonhorst'`. Whatever it returns will be passed to `responseHandler`.
 
 ```javascript
 osa = require 'osa'
