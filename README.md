@@ -49,7 +49,7 @@ That said, it will likely meet many of the needs for simple node OSX utilities. 
 
 This is a basic script that prompts the user for some information, and passes it back to node.
 
-This example is contained in `demo/demo.js` and you can run it yourself with `node run demo`. `node-osa` is not yet fully unit tested.
+This example is contained in `demo/demo.js` and you can run it yourself with `npm run demo`.
 
 First, we will write our function that will be evaluated in the OSA environment. Notice that it gets automatic access to the `Application` object (as well as `Library`, `Path`, `ObjectSpecifier`, `delay`, `ObjC`, `Ref`, and `$`).
 
@@ -76,7 +76,7 @@ Next, we will write the function than handles the callback from the OSA call
 ```javascript
 responseHandler = function (err, service, result) {
 	var stringToPrint;
-	
+
 	if (err) {
 		console.error(err)
 	} else {
