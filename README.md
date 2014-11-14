@@ -41,7 +41,6 @@ npm run lint  #run jshint
 - As it is executing in an entirely different environment, the context of the passed `osaFunction` is completely ignored. It cannot behave like a closure or modify any external variables.
 - As JSON is used as the transport mechanism, only `Object`s, `Array`s, `Number`s, `String`s, `true`, `false`, and `null` can be passed back and forth between the two environments. That is to say, you cannot pass a node library to OSA, and you cannot return an OSA object to node, even as a placeholder.
 - You cannot use Node builtins or npm modules on the osa side.
-- Currently, anything you `console.log` from the OSA side is not exposed anywhere.
 
 That said, it will likely meet many of the needs for simple node OSX utilities. It's an awesome way to combine the power of a platform like Node with the unique abilities that OSA offers.
 
@@ -67,20 +66,24 @@ var promptForHandle = function (service, defaultHandle, done) {
 
 	result = app.displayDialog(prompt, promptArguments);
 
-	return [service, result.textReturned];
+	return {service: service, text: result.textReturned};
 };
 ```
 
-Next, we will write the function than handles the callback from the OSA call
+Next, we will write the function than handles the callback from the OSA call. Notice that it takes 3 arguments:
+
+- `err` - an `Error` if one is triggered in the osa world, or something goes wrong with the call
+- `result` - the return value of the function passed to `osa`
+- `log` - a `\n`-delimited `String` of all `console.log` statements executed in the `osa` function
 
 ```javascript
-responseHandler = function (err, service, result) {
+responseHandler = function (err, result, log) {
 	var stringToPrint;
 
 	if (err) {
 		console.error(err)
 	} else {
-		stringToPrint = 'Your ' + service + ' handle is ' + result;
+		stringToPrint = 'Your ' + result.service + ' handle is ' + result.text;
 		console.log(stringToPrint);
 	}
 };

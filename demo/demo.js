@@ -11,20 +11,24 @@ function promptForHandle(service, defaultHandle) {
   };
   var result;
 
+  console.log('This was logged from osa');
+
   app.includeStandardAdditions = true;
 
   result = app.displayDialog(prompt, promptArguments);
 
-  return [service, result.textReturned];
+  return {service: service, text: result.textReturned};
 }
 
-function responseHandler(err, serviceAndResult) {
+function responseHandler(err, result, log) {
   var stringToPrint;
-  
+
+  console.log(log);
+
   if (err) {
     console.error(err)
   } else {
-    stringToPrint = 'Your ' + serviceAndResult[0] + ' handle is ' + serviceAndResult[1];
+    stringToPrint = 'Your ' + result.service + ' handle is ' + result.text;
     console.log(stringToPrint);
   }
 };

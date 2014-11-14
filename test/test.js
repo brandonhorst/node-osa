@@ -1,12 +1,14 @@
-var expect = require('chai').expect;
+var chai = require('chai');
+var expect = chai.expect;
 var osa = require('../lib/osa');
 
 describe('osa', function () {
-  
+
   it('runs a function and returns its result', function (done) {
-    function callback(err, result) {
+    function callback(err, result, messages) {
       expect(err).to.not.exist;
       expect(result).to.equal(2);
+      expect(messages).to.be.null;
       done();
     }
     osa(function (x) {return x + 1}, 1, callback);
@@ -42,6 +44,22 @@ describe('osa', function () {
     }
 
     osa(function () {}, callback);
+  });
+
+  it('returns things logged in osa', function (done) {
+    function callback(err, result, log) {
+      expect(err).to.not.exist;
+      expect(result).to.equal('test');
+      expect(log).to.equal('a message\nanother message');
+      done();
+    }
+
+    function osaFunction() {
+      console.log('a message\nanother message');
+      return 'test';
+    }
+
+    osa(osaFunction, callback);
   });
 
 });
