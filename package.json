@@ -2,7 +2,7 @@
   "name": "osa",
   "version": "2.0.1",
   "description": "node.js module for interfacing with OSX 10.10 Javascript OSA Scripting",
-  "main": "src/osa.coffee",
+  "main": "lib/osa.js",
   "scripts": {
     "test": "mocha test",
     "demo": "node demo/demo.js",
