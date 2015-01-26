@@ -7,7 +7,7 @@ Node.js module for running Open Scripting Architecture code in OSX 10.10+
 
 OSA allows for advanced interaction between applications on OSX. In the past, it has largely been implemented using AppleScript. Beginning in OSX 10.10 Yosemite, Apple has opened up this platform for development in [Javascript](https://developer.apple.com/library/prerelease/mac/releasenotes/InterapplicationCommunication/RN-JavaScriptForAutomation/index.html#//apple_ref/doc/uid/TP40014508). This has been regarded as the best thing ever, by me.
 
-`node-osa` creates the illusion of being able to call OSA scripts naturally from node. As a pleasant side-effect, it also allows for OSA development in compile-to-JS languages such as CoffeeScript and Traceur.
+`node-osa` creates the illusion of being able to call OSA scripts naturally from node. As a pleasant side-effect, it also allows for easy OSA development with compile-to-js tools such as CoffeeScript and Traceur.
 
 ##Installation
 
@@ -20,14 +20,15 @@ npm install osa
 ```javascript
 var osa = require('osa');
 
-//callback, passed the return value of osaFunction
-function done(err, result) { ... }
-
 //function to be executed on the osa side
 function osaFunction(arg [, moreArgs...]) { ... }
 
-osa(osaFunction, arg [, moreArgs...], done);
+//called when the osa function completes
+function callback(err, result, log) { ... }
+
+osa(osaFunction, arg [, moreArgs...], callback);
 ```
+
 ##Testing
 
 ```bash
@@ -114,11 +115,3 @@ Your twitter handle is @brandonhorst
 ##How Come the OSA Side Isn't Passed a Callback?
 
 In 0.x, the OSA function was passed a callback that it could call. However, as it turns out, Apple's OSA Javascript isn't really designed to work asyncronously. Its API calls are syncronous and it does not have functions like `setTimeout`. Because of this, a callback seems unnecessary. If you do need one for some reason, please open an issue.
-
-##More Information
-
-The Javascript OSA API has not yet been finalized by Apple, so anything could change at any time.
-
-Once Travis upgrades to 10.10, I will see if I can get this working with Travis and Coveralls.
-
-I'd *love* to discuss any thoughts or new ideas, and I'd be **thrilled** to see any potential applications. To get in touch, create an issue or contact me at @brandonhorst. Thank you!
