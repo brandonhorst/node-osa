@@ -7,17 +7,17 @@ Node.js module for running Open Scripting Architecture code in OSX 10.10+
 
 OSA allows for advanced interaction between applications on OSX. In the past, it has largely been implemented using AppleScript. Beginning in OSX 10.10 Yosemite, Apple has opened up this platform for development in [Javascript](https://developer.apple.com/library/prerelease/mac/releasenotes/InterapplicationCommunication/RN-JavaScriptForAutomation/index.html#//apple_ref/doc/uid/TP40014508). This has been regarded as the best thing ever, by me.
 
-`node-osa` creates the illusion of being able to call OSA scripts naturally from node. As a pleasant side-effect, it also allows for easy OSA development with compile-to-js tools such as CoffeeScript and Traceur.
+`node-osa` creates the illusion of being able to call OSA scripts naturally from node. As a pleasant side-effect, it also allows for easy OSA development with compile-to-js tools such as CoffeeScript and 6to5.
 
 ##Installation
 
-```bash
+```sh
 npm install osa
 ```
 
 ##Use
 
-```javascript
+```js
 var osa = require('osa');
 
 //function to be executed on the osa side
@@ -31,20 +31,35 @@ osa(osaFunction, arg [, moreArgs...], callback);
 
 ##Testing
 
-```bash
-npm test      #run tests
-npm run cover #run test coverage
-npm run lint  #run jshint
+```sh
+npm test
+npm run demo
+npm run cover
+npm run lint
 ```
 
 ##Limitations
 
 - As it is executing in an entirely different environment, the context of the passed `osaFunction` is completely ignored. It cannot behave like a closure or modify any external variables.
 - As JSON is used as the transport mechanism, only `Object`s, `Array`s, `Number`s, `String`s, `true`, `false`, and `null` can be passed back and forth between the two environments. That is to say, you cannot pass a node library or class to OSA, and you cannot return an OSA object to node, even as a placeholder.
-- You cannot use Node builtins or npm modules on the osa side.
+- You cannot use node builtins or npm modules on the osa side.
 - Currently no streaming is used for the JSON parsing. Sending or returning very large values (on the order of megabytes) may cause memory problems.
+- The OSA javascript environment appears to have non-standard Automatic Semicolon Insertion. An osa function looking like this
+```js
+function osaFunction () {
+  console.log('test')
+  return 'test'
+}
+```
+will throw:
+```
+syntax error: Error on line 1: SyntaxError: Unexpected keyword 'return'
+```
+The solution is to simply use semicolons for your OSA functions. I recommend the [semistandard](https://github.com/Flet/semistandard) library for simple linting.
+- The OSA javascript environment is missing some standard features that are commonly expected, such as `setTimeout`. This is unavoidable. Any asynchronous behavior will need to be conducted on the node side.
+- As each call spawns off a new process and spins up a new environment, calls take a while. On a 2014 Macbook Air, calls take around 50ms. Of course this is all asynchronous, but making many calls in series may take quite a while. The actual JS execution environment itself is very slow as well.
 
-That said, it will likely meet many of the needs for simple node OSX utilities. It's an awesome way to combine the power of a platform like Node with the unique abilities that OSA offers.
+That said, all of these limitations are problems with the OSA environment, not with this module. None of these could be improved by using AppleScript instead. This module will likely meet many needs of simple node OSX utilities. It's an awesome way to combine the power of a platform like node with the unique abilities that OSA offers.
 
 ##Example
 
@@ -94,14 +109,14 @@ responseHandler = function (err, result, log) {
 Then, we will actually make the `osa` call. This will call promptForHandle, with 2 arguments, `'twitter'` and `'@brandonhorst'`. Whatever it returns will be passed to `responseHandler`.
 
 ```javascript
-osa = require 'osa'
+osa = require('osa');
 
 osa(promptForHandle, 'twitter', '@brandonhorst', responseHandler);
 ```
 
 When we run it:
 
-```bash
+```sh
 $ npm run demo
 	*A textbox should appear, prompting for input. If we accept the default...*
 Your twitter handle is @brandonhorst
@@ -110,9 +125,9 @@ Your twitter handle is @brandonhorst
 ##Implementation
 
 - When its exported function is called, the module generates a string of javascript code. This code is a string representation of `osaFunction`, self-executed with `args` and a final callback.
-- This string of javascript is executed using the `osascript` utility. Returned value is passed back to Node in JSON via `stdout`.
+- This string of javascript is executed using the `osascript` utility. Returned value is passed back to node in JSON via `stdout`.
 - The module parses the JSON, and passes it to the original `done` callback.
 
 ##How Come the OSA Side Isn't Passed a Callback?
 
-In 0.x, the OSA function was passed a callback that it could call. However, as it turns out, Apple's OSA Javascript isn't really designed to work asyncronously. Its API calls are syncronous and it does not have functions like `setTimeout`. Because of this, a callback seems unnecessary. If you do need one for some reason, please open an issue.
+In 0.x, the OSA function was passed a callback that it could call. However, as it turns out, Apple's OSA Javascript isn't really designed to work asynchronously. Its API calls are syncronous and it does not have functions like `setTimeout`. Because of this, a callback seems unnecessary. If you do need one for some reason, please open an issue.

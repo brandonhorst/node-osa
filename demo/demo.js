@@ -1,7 +1,7 @@
 var osa = require('../lib/osa');
 
-
-function promptForHandle(service, defaultHandle) {
+function promptForHandle (service, defaultHandle) {
+  /* global Application */
   var app = Application.currentApplication();
   var prompt = 'What is your ' + service + ' handle?';
 
@@ -20,17 +20,17 @@ function promptForHandle(service, defaultHandle) {
   return {service: service, text: result.textReturned};
 }
 
-function responseHandler(err, result, log) {
+function responseHandler (err, result, log) {
   var stringToPrint;
 
   console.log(log);
 
   if (err) {
-    console.error(err)
+    console.error(err);
   } else {
     stringToPrint = 'Your ' + result.service + ' handle is ' + result.text;
     console.log(stringToPrint);
   }
-};
+}
 
 osa(promptForHandle, 'twitter', '@brandonhorst', responseHandler);
