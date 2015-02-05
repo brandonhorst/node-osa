@@ -37,13 +37,23 @@ describe('osa', function () {
     osa(osaFunction, callback);
   });
 
-  it('throws without a return', function (done) {
+  it('returns nothing if nothing was returned', function (done) {
+    function callback(err, result) {
+      expect(err).to.not.exist;
+      expect(result).to.be.undefined;
+      done();
+    }
+
+    osa(function () {}, callback);
+  });
+
+  it('throws an error when non-JSON data is returned', function (done) {
     function callback(err, result) {
       expect(err).to.exist;
       done();
     }
 
-    osa(function () {}, callback);
+    osa(function () {return /test/}, callback);
   });
 
   it('returns things logged in osa', function (done) {

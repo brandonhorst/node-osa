@@ -40,8 +40,9 @@ npm run lint  #run jshint
 ##Limitations
 
 - As it is executing in an entirely different environment, the context of the passed `osaFunction` is completely ignored. It cannot behave like a closure or modify any external variables.
-- As JSON is used as the transport mechanism, only `Object`s, `Array`s, `Number`s, `String`s, `true`, `false`, and `null` can be passed back and forth between the two environments. That is to say, you cannot pass a node library to OSA, and you cannot return an OSA object to node, even as a placeholder.
+- As JSON is used as the transport mechanism, only `Object`s, `Array`s, `Number`s, `String`s, `true`, `false`, and `null` can be passed back and forth between the two environments. That is to say, you cannot pass a node library or class to OSA, and you cannot return an OSA object to node, even as a placeholder.
 - You cannot use Node builtins or npm modules on the osa side.
+- Currently no streaming is used for the JSON parsing. Sending or returning very large values (on the order of megabytes) may cause memory problems.
 
 That said, it will likely meet many of the needs for simple node OSX utilities. It's an awesome way to combine the power of a platform like Node with the unique abilities that OSA offers.
 
@@ -108,8 +109,8 @@ Your twitter handle is @brandonhorst
 
 ##Implementation
 
-- When its exported function is called, the module generates a string of javascript code. This code is a string representation of `osaFunction`, self-executed with `args` and a final callback. `osaFunction` is expected to call its final argument with its error or results.
-- This string of javascript is executed using the `osascript` utility. Results are passed back to Node in JSON via `stdout`.
+- When its exported function is called, the module generates a string of javascript code. This code is a string representation of `osaFunction`, self-executed with `args` and a final callback.
+- This string of javascript is executed using the `osascript` utility. Returned value is passed back to Node in JSON via `stdout`.
 - The module parses the JSON, and passes it to the original `done` callback.
 
 ##How Come the OSA Side Isn't Passed a Callback?
