@@ -1,6 +1,6 @@
 {
   "name": "osa",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "node.js module for interfacing with OSX 10.10 Javascript OSA Scripting",
   "main": "lib/osa.js",
   "scripts": {
