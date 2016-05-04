@@ -7,7 +7,7 @@ Node.js module for running Open Scripting Architecture code in OSX 10.10+
 
 OSA allows for advanced interaction between applications on OSX. In the past, it has largely been implemented using AppleScript. Beginning in OSX 10.10 Yosemite, Apple has opened up this platform for development in [Javascript](https://developer.apple.com/library/prerelease/mac/releasenotes/InterapplicationCommunication/RN-JavaScriptForAutomation/index.html#//apple_ref/doc/uid/TP40014508). This has been regarded as the best thing ever, by me.
 
-`node-osa` creates the illusion of being able to call OSA scripts naturally from node. As a pleasant side-effect, it also allows for easy OSA development with compile-to-js tools such as CoffeeScript and 6to5.
+`node-osa` creates the illusion of being able to call OSA scripts naturally from node. As a pleasant side-effect, it also allows for easy OSA development with compile-to-js tools such as Babel or CoffeeScript.
 
 ##Installation
 
@@ -44,20 +44,8 @@ npm run lint
 - As JSON is used as the transport mechanism, only `Object`s, `Array`s, `Number`s, `String`s, `true`, `false`, and `null` can be passed back and forth between the two environments. That is to say, you cannot pass a node library or class to OSA, and you cannot return an OSA object to node, even as a placeholder.
 - You cannot use node builtins or npm modules on the osa side.
 - Currently no streaming is used for the JSON parsing. Sending or returning very large values (on the order of megabytes) may cause memory problems.
-- The OSA javascript environment appears to have non-standard Automatic Semicolon Insertion. An osa function looking like this
-```js
-function osaFunction () {
-  console.log('test')
-  return 'test'
-}
-```
-will throw:
-```
-syntax error: Error on line 1: SyntaxError: Unexpected keyword 'return'
-```
-The solution is to simply use semicolons for your OSA functions. I recommend the [semistandard](https://github.com/Flet/semistandard) library for simple linting.
-- The OSA javascript environment is missing some standard features that are commonly expected, such as `setTimeout`. This is unavoidable. Any asynchronous behavior will need to be conducted on the node side.
-- As each call spawns off a new process and spins up a new environment, calls take a while. On a 2014 Macbook Air, calls take around 50ms. Of course this is all asynchronous, but making many calls in series may take quite a while. The actual JS execution environment itself is very slow as well.
+- The OSA javascript environment is entirely syncronous. Functions like `setTimeout` are not available. Any asynchronous behavior will need to be conducted on the node side.
+- As each call spawns off a new process and spins up a new environment, calls take a while. On a 2014 Macbook Air, calls take around 50ms. Of course this is all asynchronous from Node's point of view, but making many calls in series may take quite a while.
 
 That said, all of these limitations are problems with the OSA environment, not with this module. None of these could be improved by using AppleScript instead. This module will likely meet many needs of simple node OSX utilities. It's an awesome way to combine the power of a platform like node with the unique abilities that OSA offers.
 
