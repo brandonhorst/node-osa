@@ -73,4 +73,22 @@ describe('osa', function () {
 
     osa(osaFunction, callback);
   });
+
+  it('reports errors by line', function (done) {
+    function callback (err, result, log) {
+      expect(err).to.exist;
+      expect(err.toString()).to.contain('Error on line 3');
+      expect(result).to.equal(undefined);
+      expect(log).to.equal(undefined);
+      done();
+    }
+
+    function osaFunction () {                    // line 1, line comments are now supported
+      console.log('a message\nanother message'); // line 2
+      var a = errorSource.inLine3;               // line 3
+      return 'test';                             // line 4
+    }
+
+    osa(osaFunction, callback);
+  });
 });
