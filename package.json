@@ -29,10 +29,10 @@
   },
   "homepage": "https://github.com/brandonhorst/node-osa",
   "devDependencies": {
-    "chai": "^1.9.1",
-    "coveralls": "^2.11.2",
-    "istanbul": "^0.3.2",
-    "mocha": "^1.21.5",
-    "semistandard": "^2.4.1"
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.14",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.1.2",
+    "semistandard": "^9.1.0"
   }
 }
