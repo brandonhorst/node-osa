@@ -77,7 +77,7 @@ describe('osa', function () {
   it('reports errors by line', function (done) {
     function callback (err, result, log) {
       expect(err).to.exist;
-      expect(err.toString()).to.contain('Error on line 3');
+      expect(err.toString()).to.contain('Error on line 4');
       expect(result).to.equal(undefined);
       expect(log).to.equal(undefined);
       done();
