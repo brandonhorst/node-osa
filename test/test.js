@@ -91,4 +91,18 @@ describe('osa', function () {
 
     osa(osaFunction, callback);
   });
+
+  it('works fine with no callback', function (done) {
+    function osaFunction () {
+      return 'test';
+    }
+
+    setTimeout(function () {
+      done()
+    }, 1000);
+
+    expect(function () {
+      osa(osaFunction);
+    }).to.not.throw(Error);
+  });
 });
