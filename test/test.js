@@ -12,7 +12,7 @@ describe('osa', function () {
       expect(messages).to.be.null;
       done();
     }
-    osa(function (x) {return x + 1;}, 1, callback);
+    osa(function (x) { return x + 1; }, 1, callback);
   });
 
   it('returns an error if one is thrown', function (done) {
@@ -21,7 +21,7 @@ describe('osa', function () {
       // expect(err.message).to.contain('myError')
       done();
     }
-    osa(function () {throw new Error('myError')}, callback);
+    osa(function () { throw new Error('myError'); }, callback);
   });
 
   it('interacts with the osa globals', function (done) {
@@ -55,7 +55,7 @@ describe('osa', function () {
       done();
     }
 
-    osa(function () {return /test/;}, callback);
+    osa(function () { return /test/; }, callback);
   });
 
   it('returns things logged in osa', function (done) {
@@ -84,8 +84,9 @@ describe('osa', function () {
     }
 
     function osaFunction () {                    // line 1, line comments are now supported
+      /* global errorSource */
       console.log('a message\nanother message'); // line 2
-      var a = errorSource.inLine3;               // line 3
+      errorSource.inLine3;                       // line 3
       return 'test';                             // line 4
     }
 
@@ -98,7 +99,7 @@ describe('osa', function () {
     }
 
     setTimeout(function () {
-      done()
+      done();
     }, 1000);
 
     expect(function () {
